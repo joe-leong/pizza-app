@@ -62,51 +62,55 @@ export default {
     return {
       baskets: [],
       basketEmptyText: "还没有选购商品",
-      getMenuItems: {
-        1: {
-          name: "榴莲pizza",
-          description: "这是喜欢吃榴莲朋友的最佳选择",
-          options: [
-            {
-              size: 9,
-              price: 38
-            },
-            {
-              size: 12,
-              price: 48
-            }
-          ]
-        },
-        2: {
-          name: "芝士pizza",
-          description: "芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚",
-          options: [
-            {
-              size: 9,
-              price: 38
-            },
-            {
-              size: 12,
-              price: 48
-            }
-          ]
-        },
-        3: {
-          name: "夏威夷pizza",
-          description: "众多人的默认选择",
-          options: [
-            {
-              size: 9,
-              price: 36
-            },
-            {
-              size: 12,
-              price: 46
-            }
-          ]
-        }
-      }
+      getMenuItems: []
+      // {
+      //   1: {
+      //     name: "榴莲pizza",
+      //     description: "这是喜欢吃榴莲朋友的最佳选择",
+      //     options: [
+      //       {
+      //         size: 9,
+      //         price: 38
+      //       },
+      //       {
+      //         size: 12,
+      //         price: 48
+      //       }
+      //     ]
+      //   },
+      //   2: {
+      //     name: "芝士pizza",
+      //     description: "芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚",
+      //     options: [
+      //       {
+      //         size: 9,
+      //         price: 38
+      //       },
+      //       {
+      //         size: 12,
+      //         price: 48
+      //       }
+      //     ]
+      //   },
+      //   3: {
+      //     name: "夏威夷pizza",
+      //     description: "众多人的默认选择",
+      //     options: [
+      //       {
+      //         size: 9,
+      //         price: 36
+      //       },
+      //       {
+      //         size: 12,
+      //         price: 46
+      //       }
+      //     ]
+      //   }
+      // }
     };
+  },
+  created() {
+    this.getMenuData();
   },
   methods: {
     addToBasket(item, option) {
@@ -140,6 +144,18 @@ export default {
     },
     removeBaseketItem(item) {
       this.baskets.splice(this.baskets.indexOf(item), 1);
+    },
+    getMenuData() {
+      fetch("https://wd5136467665zctkda.wilddogio.com/menu.json")
+        .then(res => res.json())
+        .then(data => {
+          let menuArray = [];
+          for (let key in data) {
+            menuArray.push(data[key])
+          }
+          this.getMenuItems = menuArray
+        })
+        .catch(err =>console.log(err))
     }
   },
   computed: {

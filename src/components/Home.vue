@@ -12,7 +12,11 @@
 </template>
 <script>
 export default {
-    
+    methods:{
+        goToMenu(){
+            this.$router.push({name:'menuLink'})
+        }
+    }
 }
 </script>
 <style>

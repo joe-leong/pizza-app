@@ -24,8 +24,8 @@ export const routes = [
         'history':History,
         
     },name:'homeLink'},
-    { path: '/menu', component: Menu },
-    { path: '/admin', component: Admin },
+    { path: '/menu', component: Menu,name:'menuLink' },
+    { path: '/admin', component: Admin,name:'adminLink' },
     {
         path: '/about', component: About, redirect: '/about/contact', children: [
             {
