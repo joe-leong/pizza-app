@@ -2,15 +2,14 @@ import Vue from 'vue'
 import App from './App.vue'
 import vueRouter from 'vue-router'
 import axios from 'axios'
-
-
-
-import { routes } from './routes';
+import { routes } from './routes'
+import { store } from './store/store.js'
 
 Vue.use(vueRouter)
+
 axios.defaults.baseURL = 'https://wd5136467665zctkda.wilddogio.com/'
 
-
+Vue.prototype.http = axios
 
 const router = new vueRouter(
   {
@@ -43,5 +42,6 @@ const router = new vueRouter(
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

@@ -53,35 +53,33 @@ export default {
       newPizza: {}
     };
   },
-  methods:{
-      addMenuItem(){
-          let data = {
-              name:this.newPizza.name,
-              description:this.newPizza.description,
-              options:[
-                  {
-                      size:this.newPizza.size1,
-                      price:this.newPizza.price1
-                  },
-                  {
-                      size:this.newPizza.size2,
-                      price:this.newPizza.price2
-                  }
-              ]
+  methods: {
+    addMenuItem() {
+      let data = {
+        name: this.newPizza.name,
+        description: this.newPizza.description,
+        options: [
+          {
+            size: this.newPizza.size1,
+            price: this.newPizza.price1
+          },
+          {
+            size: this.newPizza.size2,
+            price: this.newPizza.price2
           }
-
-        //   axios vue-resource
-        fetch('https://wd5136467665zctkda.wilddogio.com/menu.json',{
-            method:'POST',
-            headers:{
-                'Content-type':'application/json'
-            },
-            body:JSON.stringify(data)
-        })
+        ]
+      };
+      fetch("https://wd5136467665zctkda.wilddogio.com/menu.json", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
         .then(res => res.json())
         .then(() => window.location.reload())
-        .catch(err => console.log(err))
-      }
+        .catch(err => console.log(err));
+    }
   }
 };
 </script>

@@ -46,7 +46,11 @@
                 </tbody>
             </table>
             <p>总价:{{total +'RMB'}}</p>
-            <button class="btn btn-success btn-block">提交订单</button>
+            <div class="row">
+              <button class="btn btn-success col-sm-6">提交订单</button>
+              <button class="btn btn-danger col-sm-6" @click="clearBasket">清空购物车</button>
+            </div>
+            
             </div>
             <div v-else class="text-center">
                 {{basketEmptyText}}
@@ -62,51 +66,7 @@ export default {
     return {
       baskets: [],
       basketEmptyText: "还没有选购商品",
-      getMenuItems: []
-      // {
-      //   1: {
-      //     name: "榴莲pizza",
-      //     description: "这是喜欢吃榴莲朋友的最佳选择",
-      //     options: [
-      //       {
-      //         size: 9,
-      //         price: 38
-      //       },
-      //       {
-      //         size: 12,
-      //         price: 48
-      //       }
-      //     ]
-      //   },
-      //   2: {
-      //     name: "芝士pizza",
-      //     description: "芝士杀手,浓浓的芝士丝, 食欲瞬间爆棚",
-      //     options: [
-      //       {
-      //         size: 9,
-      //         price: 38
-      //       },
-      //       {
-      //         size: 12,
-      //         price: 48
-      //       }
-      //     ]
-      //   },
-      //   3: {
-      //     name: "夏威夷pizza",
-      //     description: "众多人的默认选择",
-      //     options: [
-      //       {
-      //         size: 9,
-      //         price: 36
-      //       },
-      //       {
-      //         size: 12,
-      //         price: 46
-      //       }
-      //     ]
-      //   }
-      // }
+      // getMenuItems: {}
     };
   },
   created() {
@@ -146,19 +106,31 @@ export default {
       this.baskets.splice(this.baskets.indexOf(item), 1);
     },
     getMenuData() {
-      fetch("https://wd5136467665zctkda.wilddogio.com/menu.json")
-        .then(res => res.json())
-        .then(data => {
-          let menuArray = [];
-          for (let key in data) {
-            menuArray.push(data[key])
-          }
-          this.getMenuItems = menuArray
-        })
-        .catch(err =>console.log(err))
+      // 使用fetch获取数据
+      // fetch("https://wd5136467665zctkda.wilddogio.com/menu.json")
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     this.getMenuItems = data
+      //   })
+      //   .catch(err =>console.log(err))
+
+      // 使用axios获取数据
+      // this.http.get("menu.json").then(res => (this.getMenuItems = res.data));
+
+      // 将请求到的数据存储到vuex中
+      this.http.get("menu.json").then(res => this.$store.commit('setMenuItems',res.data));
+    },
+    clearBasket(){
+      if(window.confirm("确认清空购物车？")){
+        this.baskets = []
+      }
     }
   },
   computed: {
+    // 在 vuex 中获取数据
+    getMenuItems(){
+      return this.$store.state.menuItems
+    },
     total() {
       let totalCost = 0;
       for (let item in this.baskets) {
