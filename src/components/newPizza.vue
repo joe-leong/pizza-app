@@ -76,8 +76,7 @@ export default {
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
-        .then(() => window.location.reload())
+        .then(() => this.$store.commit('addMenuItems',data))
         .catch(err => console.log(err));
     }
   }

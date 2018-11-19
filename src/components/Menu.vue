@@ -129,7 +129,9 @@ export default {
   computed: {
     // 在 vuex 中获取数据
     getMenuItems(){
-      return this.$store.state.menuItems
+      // return this.$store.state.menuItems
+
+      return this.$store.getters.getMenuItems
     },
     total() {
       let totalCost = 0;

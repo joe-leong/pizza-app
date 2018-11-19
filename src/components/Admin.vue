@@ -35,7 +35,7 @@ import newPizza from "./newPizza.vue";
 export default {
   data() {
     return {
-      getMenuData: []
+      //   getMenuData: []
     };
   },
   components: {
@@ -49,27 +49,47 @@ export default {
         let menuArray = [];
         for (let key in data) {
           // console.log(key)
-          data[key].id = key
+          data[key].id = key;
           // console.log(data[key].id)
-          menuArray.push(data[key])
+          menuArray.push(data[key]);
         }
-        this.getMenuData = menuArray
+        // this.getMenuData = menuArray;
+
+        // 同步 vuex 中的数据
+        this.$store.commit("setMenuItems", menuArray);
       })
       .catch(err => console.log(err));
   },
-  methods:{
-      deleteData(item){
-           fetch("https://wd5136467665zctkda.wilddogio.com/menu/"+item.id+".json",{
-               method:'DELETE',
-               headers:{
-                   'Content-type':'application/json'
-               },
-           })
-           .then(() => this.getMenuData.splice(this.getMenuData.indexOf(item.id),1))
-           .then(() => this.getMenuData.json())
-           .then((data) => console.log(data))
-           .catch(err => console.log(err))
-      }
+  methods: {
+    deleteData(item) {
+      fetch(
+        "https://wd5136467665zctkda.wilddogio.com/menu/" + item.id + ".json",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json"
+          }
+        }
+      )
+        .then(() => this.$store.commit("removeMenuItems", item))
+        // .then(() =>
+        //   this.getMenuData.splice(this.getMenuData.indexOf(item.id), 1)
+        // )
+        // .then(() => this.getMenuData.json())
+        // .then(data => console.log(data))
+        .catch(err => console.log(err));
+    }
+  },
+  computed: {
+    getMenuData: {
+      get() {
+        // return this.$store.state.menuItems;
+
+        // 通过getter获取数据
+        return this.$store.getters.getMenuItems
+      },
+      set() {}
+    }
   }
 };
 </script>
