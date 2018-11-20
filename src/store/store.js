@@ -6,11 +6,15 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
     // 设置属性
     state: {
-        menuItems: {}
+        menuItems: {},
+        currentUser: null,
+        isLogin: false
     },
     // 获取属性状态
     getters: {
-        getMenuItems:state => state.menuItems 
+        getMenuItems: state => state.menuItems,
+        currentUser:state => state.currentUser,
+        isLogin:state => state.isLogin
     },
     // 更改属性状态
     mutations: {
@@ -24,12 +28,23 @@ export const store = new Vuex.Store({
                 }
             });
         },
-        addMenuItems(state,data){
+        addMenuItems(state, data) {
             state.menuItems.push(data)
+        },
+        userState(state,user){
+            if(user){
+                state.currentUser = user
+                state.isLogin = true
+            }else{
+                state.currentUser = null
+                state.isLogin = false
+            }
         }
     },
     // 应用mutations
     actions: {
-
+        setUser({commit},user){
+            commit('userState',user)
+        }
     }
 })
